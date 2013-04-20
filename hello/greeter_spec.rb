@@ -4,7 +4,7 @@ class RSpecGreeter
 	end
 	
 	def bye
-		"sayonara"
+		"Byebye"
 	end
 end
 
