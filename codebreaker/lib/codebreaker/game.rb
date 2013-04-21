@@ -11,27 +11,35 @@ module Codebreaker
     end
     
     def guess(guess)
-    	@output.puts '+'*exact_match_count(guess) + '-'*number_match_count(guess)
+    	maker = Maker.new(@secret)
+    	@output.puts '+'*maker.exact_match_count(guess) + '-'*maker.number_match_count(guess)
     end
 
-		def exact_match_count(guess)
-    	(0..3).inject(0) do |count, index|
-  	  	count + (exact_match?(guess, index) ? 1 : 0)
-  	  end
-		end
-
-		def number_match_count(guess)
-  	  (0..3).inject(0) do |count, index|
-				count + (number_match?(guess, index) ? 1 : 0)
+    
+    class Maker
+    	def initialize(secret)
+    		@secret = secret
     	end
-		end    
+    	
+			def exact_match_count(guess)
+  	  	(0..3).inject(0) do |count, index|
+  		  	count + (exact_match?(guess, index) ? 1 : 0)
+  	  	end
+			end
+
+			def number_match_count(guess)
+	 	 	  (0..3).inject(0) do |count, index|
+					count + (number_match?(guess, index) ? 1 : 0)
+    		end
+			end    
     
-    def exact_match?(guess, index)
-    	guess[index] == @secret[index]
-    end
+			def exact_match?(guess, index)
+    		guess[index] == @secret[index]
+			end
     
-    def number_match?(guess, index)
-    	@secret.include?(guess[index]) && !exact_match?(guess, index)
+			def number_match?(guess, index)
+    		@secret.include?(guess[index]) && !exact_match?(guess, index)
+			end	
     end
   end
 end
